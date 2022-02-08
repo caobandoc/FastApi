@@ -1,4 +1,5 @@
 #Python
+from turtle import title
 from typing import Optional
 
 #Pydantic
@@ -16,6 +17,11 @@ class Person(BaseModel):
     age: int
     hair_color: Optional[str] = None
     is_married: Optional[bool] = None
+    
+class Location(BaseModel):
+    citiy: str
+    state: str
+    country: str
 
 @app.get("/")
 def home():
@@ -58,3 +64,21 @@ def show_person(
         )
 ):
     return {person_id:"It exists¡"}
+
+# Validaciones: Request Body
+
+@app.put("/person/{person_id}")
+def update_person(
+    person_id: int = Path(
+        ...,
+        title="Person ID",
+        description="This is the person ID. It's requeried and greater than 0",
+        gt=0
+        ),
+    person: Person = Body(...),
+    location: Location = Body(...)
+):
+    return {
+        "person": person,
+        "location": location
+    }
