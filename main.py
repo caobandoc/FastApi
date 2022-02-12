@@ -40,8 +40,20 @@ class Person(BaseModel):
     hair_color: Optional[HairColor] = Field(default=None)
     is_married: Optional[bool] = Field(default=None)
     
+    class Config:
+        schema_extra = {
+            "example":{
+                "first_name":"Carlos",
+                "last_name":"Obando Casiano",
+                "age":21,
+                "hair_color":"black",
+                "is_married":False
+            }
+        }
+    
+    
 class Location(BaseModel):
-    citiy: str
+    city: str
     state: str
     country: str
 
